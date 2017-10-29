@@ -1,62 +1,65 @@
 /* GLOBAL VARIABLES */
-var listOfProducts =
-[
-    {
-        "title": "iPhone X",
-        "description": "Latest and gratest smartphone from Apple.",
-        "image": "iPhonex.png",
-        "price": 11495
-    },{
-        "title": "One Plus 5",
-        "description": "Sleek and powerful smartphone from One Plus",
-        "image": "OnePlus5.png",
-        "price": 4995
-    },{
-        "title": "Galaxy S8",
-        "description": "Latest edge to edge smartphone from Samsung.",
-        "image": "SamsungS8.png",
-        "price": 7990
-    },{
-        "title": "LG V30",
-        "description": "Super nice and beautiful smartphone from LG.",
-        "image": "LGV30.png",
-        "price": 7495
-    }
-];
-
-createUIFromLoadedProducts();
-
-// add more global variables when needed..
+var listOfProducts;
 
 /* Get products from the json file and store it in a javascript variable */
-/*fetch("./products.json")
+fetch("./products.json")
 .then(function(response) {
     return response.json();
 })
 .then(function(products) {
-    listOfProducts = products;
+    listOfProducts = products; // listOfProducts contains all products fron the jsonfile
     createUIFromLoadedProducts();
-}); */
-
-/** Uses the loaded products data to create a visible product list on the website */
+});
+//This function create a div-element with the products
 function createUIFromLoadedProducts() {
-    /* Check your console to see that the products are stored in the listOfProducts varible */
-    console.log(listOfProducts);
+var productList = document.createElement("div");
+productList.className = "productListClass";
+//loop
+for(var index = 0; index < listOfProducts.length;index++) {
+    var productCard = createProductCard(listOfProducts[index]);
+    productList.appendChild(productCard);
+}
+document.body.appendChild(productList);
+}
+//Create function to append childelement, and get the product visible on the site  
+function createProductCard(listOfProducts) {
+    var productCard = document.createElement("div")
+    productCard.className = "productCardClass";
+    productCard.id = "productCardId";
 
-    /*skrevs under lektion*/
-var main = document.querySelector("#main");
-console.log(main);
-main.innerHTML = "Test";
+    var getProductTitle = document.createElement("h3");
+    getProductTitle.innerText = listOfProducts.title;
+    productCard.appendChild(getProductTitle);
 
+    var getProductDescription = document.createElement("h4");
+    getProductDescription.innerText = listOfProducts.description;
+    productCard.appendChild(getProductDescription);
 
-    /* Add your code here, remember to brake your code in to
-    smaller function blocks to reduce complexity and increase readability */
+    var getProductImage = document.createElement("img");
+    getProductImage.src = "assets/" + listOfProducts.image;
+    productCard.appendChild(getProductImage);
 
-    /* Each function must have an explainetory comment like the one for this function, see row 15 */
+    var getProductPrice = document.createElement("h5");
+    getProductPrice.innerText = listOfProducts.price + " kr";
+    productCard.appendChild(getProductPrice);
+
+//Create buttonelement with text
+    var getProductButton = document.createElement("button");
+    getProductButton.innerText = " Lägg till i kundvagnen";
+    getProductButton.onclick = function() {add()}
+    productCard.appendChild(getProductButton);
     
-    /* Feel free to remove these other comments */
+    return productCard;
 }
 
+var count = 0
+var step = 1;
+var span = document.querySelector("span");
 
-/* Read the projects readme before you start! */
-/* Good luck and have fun 🤓 */
+//This function makes the quantity(the number beside the shoppingcart in header) change when click add product
+function add() {
+    count = count + step
+    span.innerText = count;
+    alert("Din vara har lagts i varukorgen!");
+}
+
